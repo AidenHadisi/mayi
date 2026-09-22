@@ -1,8 +1,10 @@
 # mayi
 
-[![CI](https://github.com/AidenHadisi/mayi/actions/workflows/ci.yml/badge.svg)](https://github.com/AidenHadisi/mayi/actions/workflows/ci.yml)
-[![Rust 1.96+](https://img.shields.io/badge/rust-1.96%2B-orange.svg?logo=rust&logoColor=white)](https://www.rust-lang.org)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+<p align="center">
+  <a href="https://github.com/AidenHadisi/mayi/actions/workflows/ci.yml"><img src="https://github.com/AidenHadisi/mayi/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://www.rust-lang.org"><img src="https://img.shields.io/badge/rust-1.96%2B-orange.svg?logo=rust&logoColor=white" alt="Rust 1.96+"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
+</p>
 
 <p align="center"><strong>A tool-call gate for coding agents, powered by <a href="https://typesafe.ai">TypeSafe Jev</a>.</strong></p>
 
