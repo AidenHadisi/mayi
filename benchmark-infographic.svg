@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1240" viewBox="0 0 1600 1240" role="img" aria-labelledby="title desc">
+  <title id="title">Mayi benchmark</title>
+  <desc id="desc">Quality and cost comparison of Jev, GPT-5.6 Luna, and Claude Haiku 4.5.</desc>
+  <style>
+    text { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .title { font-size: 52px; font-weight: 700; fill: #f5f2ea; letter-spacing: -1.3px; }
+    .url { font-size: 30px; font-weight: 620; fill: #e9a23b; }
+    .heading { font-size: 30px; font-weight: 700; fill: #f5f2ea; }
+    .muted { font-size: 18px; font-weight: 500; fill: #a99f90; }
+    .label { font-size: 16px; font-weight: 700; fill: #b7ad9e; letter-spacing: .4px; }
+    .axis { font-size: 18px; font-weight: 600; fill: #a99f90; }
+    .axis-title { font-size: 18px; font-weight: 650; fill: #c8bfb2; }
+    .model { font-size: 22px; font-weight: 650; fill: #f5f2ea; }
+    .value { font-size: 22px; font-weight: 600; fill: #e8e2d8; font-variant-numeric: tabular-nums; }
+    .point-name { font-size: 23px; font-weight: 680; fill: #f5f2ea; }
+    .point-meta { font-size: 19px; font-weight: 600; fill: #b7ad9e; }
+    .winner { font-weight: 750; fill: #f2b84b; }
+    .foot { font-size: 15px; font-weight: 500; fill: #817a70; }
+  </style>
+
+  <rect width="1600" height="1240" fill="#0e0e0c"/>
+
+  <text x="72" y="82" class="title">Mayi Benchmark</text>
+  <g transform="translate(1169 53) scale(1.45)" fill="#e9a23b" aria-label="GitHub">
+    <path d="M12 .297C5.37.297 0 5.67 0 12.297c0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.762-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23A11.5 11.5 0 0 1 12 6.1c1.02.005 2.045.138 3.003.404 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.435.375.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.825.825.58C20.565 22.092 24 17.592 24 12.297 24 5.67 18.627.297 12 .297Z"/>
+  </g>
+  <text x="1528" y="82" text-anchor="end" class="url">github.com/AidenHadisi</text>
+
+  <rect x="64" y="152" width="1472" height="620" rx="18" fill="#171714" stroke="#363229"/>
+  <text x="96" y="202" class="heading">Quality / cost</text>
+
+  <!-- Score grid. 80 at y=310, 50 at y=640. Cost is a reversed log scale. -->
+  <line x1="210" y1="310" x2="1490" y2="310" stroke="#343128"/>
+  <line x1="210" y1="420" x2="1490" y2="420" stroke="#343128"/>
+  <line x1="210" y1="530" x2="1490" y2="530" stroke="#343128"/>
+  <line x1="210" y1="640" x2="1490" y2="640" stroke="#4a453a"/>
+  <text x="196" y="316" text-anchor="end" class="axis">80</text>
+  <text x="196" y="426" text-anchor="end" class="axis">70</text>
+  <text x="196" y="536" text-anchor="end" class="axis">60</text>
+  <text x="196" y="646" text-anchor="end" class="axis">50</text>
+  <text x="86" y="490" text-anchor="middle" class="axis-title" transform="rotate(-90 86 490)">Balanced score &#8593;</text>
+
+  <line x1="290" y1="310" x2="290" y2="640" stroke="#26231d"/>
+  <line x1="595" y1="310" x2="595" y2="640" stroke="#26231d"/>
+  <line x1="930" y1="310" x2="930" y2="640" stroke="#26231d"/>
+  <line x1="1235" y1="310" x2="1235" y2="640" stroke="#26231d"/>
+  <line x1="1428" y1="310" x2="1428" y2="640" stroke="#26231d"/>
+  <text x="290" y="672" text-anchor="middle" class="axis">$3</text>
+  <text x="595" y="672" text-anchor="middle" class="axis">$1</text>
+  <text x="930" y="672" text-anchor="middle" class="axis">$0.30</text>
+  <text x="1235" y="672" text-anchor="middle" class="axis">$0.10</text>
+  <text x="1428" y="672" text-anchor="middle" class="axis">$0.05</text>
+  <text x="850" y="712" text-anchor="middle" class="axis-title">Cost &#183; lower is better &#8594;</text>
+
+  <!-- Claude Haiku 4.5: (365, 399) -->
+  <circle cx="365" cy="399" r="18" fill="#d6c59a" fill-opacity="0.16" stroke="#d6c59a" stroke-width="2"/>
+  <circle cx="365" cy="399" r="7" fill="#d6c59a"/>
+  <text x="397" y="393" class="point-name">Claude Haiku 4.5</text>
+  <text x="397" y="418" class="point-meta">71.9 &#183; $2.29</text>
+
+  <!-- GPT-5.6 Luna: (765, 516) -->
+  <circle cx="765" cy="516" r="18" fill="#c97545" fill-opacity="0.16" stroke="#c97545" stroke-width="2"/>
+  <circle cx="765" cy="516" r="7" fill="#c97545"/>
+  <text x="797" y="510" class="point-name">GPT-5.6 Luna</text>
+  <text x="797" y="535" class="point-meta">61.3 &#183; $0.54</text>
+
+  <!-- Jev: (1295, 367) -->
+  <circle cx="1295" cy="367" r="20" fill="#e9a23b" fill-opacity="0.16" stroke="#e9a23b" stroke-width="2"/>
+  <circle cx="1295" cy="367" r="8" fill="#e9a23b"/>
+  <text x="1261" y="361" text-anchor="end" class="point-name">Jev</text>
+  <text x="1261" y="386" text-anchor="end" class="point-meta winner">74.8 &#183; $0.08</text>
+
+  <!-- ShellRisk -->
+  <rect x="64" y="800" width="724" height="360" rx="18" fill="#171714" stroke="#363229"/>
+  <text x="100" y="852" class="heading">ShellRisk-Bench</text>
+  <text x="752" y="852" text-anchor="end" class="muted">4,194 commands</text>
+  <rect x="100" y="880" width="652" height="48" rx="8" fill="#222019"/>
+  <text x="124" y="910" class="label">MODEL</text>
+  <text x="470" y="910" text-anchor="end" class="label">CAUGHT</text>
+  <text x="625" y="910" text-anchor="end" class="label">MEDIAN</text>
+  <text x="730" y="910" text-anchor="end" class="label">COST</text>
+  <line x1="100" y1="992" x2="752" y2="992" stroke="#343128"/>
+  <line x1="100" y1="1064" x2="752" y2="1064" stroke="#343128"/>
+  <text x="124" y="968" class="model">Jev</text>
+  <text x="470" y="968" text-anchor="end" class="value winner">81.3%</text>
+  <text x="625" y="968" text-anchor="end" class="value winner">234 ms</text>
+  <text x="730" y="968" text-anchor="end" class="value winner">$0.071</text>
+  <text x="124" y="1040" class="model">GPT-5.6 Luna</text>
+  <text x="470" y="1040" text-anchor="end" class="value">59.1%</text>
+  <text x="625" y="1040" text-anchor="end" class="value">1,051 ms</text>
+  <text x="730" y="1040" text-anchor="end" class="value">$0.466</text>
+  <text x="124" y="1112" class="model">Claude Haiku 4.5</text>
+  <text x="470" y="1112" text-anchor="end" class="value">61.7%</text>
+  <text x="625" y="1112" text-anchor="end" class="value">702 ms</text>
+  <text x="730" y="1112" text-anchor="end" class="value">$2.01</text>
+
+  <!-- RedCode -->
+  <rect x="812" y="800" width="724" height="360" rx="18" fill="#171714" stroke="#363229"/>
+  <text x="848" y="852" class="heading">RedCode-Exec</text>
+  <text x="1500" y="852" text-anchor="end" class="muted">570 scripts</text>
+  <rect x="848" y="880" width="652" height="48" rx="8" fill="#222019"/>
+  <text x="872" y="910" class="label">MODEL</text>
+  <text x="1180" y="910" text-anchor="end" class="label">CAUGHT</text>
+  <text x="1340" y="910" text-anchor="end" class="label">MEDIAN</text>
+  <text x="1478" y="910" text-anchor="end" class="label">COST</text>
+  <line x1="848" y1="992" x2="1500" y2="992" stroke="#343128"/>
+  <line x1="848" y1="1064" x2="1500" y2="1064" stroke="#343128"/>
+  <text x="872" y="968" class="model">Jev</text>
+  <text x="1180" y="968" text-anchor="end" class="value winner">62.5%</text>
+  <text x="1340" y="968" text-anchor="end" class="value winner">237 ms</text>
+  <text x="1478" y="968" text-anchor="end" class="value winner">$0.010</text>
+  <text x="872" y="1040" class="model">GPT-5.6 Luna</text>
+  <text x="1180" y="1040" text-anchor="end" class="value">34.7%</text>
+  <text x="1340" y="1040" text-anchor="end" class="value">1,446 ms</text>
+  <text x="1478" y="1040" text-anchor="end" class="value">$0.077</text>
+  <text x="872" y="1112" class="model">Claude Haiku 4.5</text>
+  <text x="1180" y="1112" text-anchor="end" class="value">61.4%</text>
+  <text x="1340" y="1112" text-anchor="end" class="value">718 ms</text>
+  <text x="1478" y="1112" text-anchor="end" class="value">$0.280</text>
+
+  <text x="72" y="1204" class="foot">Balanced score weights safe-command acceptance and attack detection equally.</text>
+</svg>
