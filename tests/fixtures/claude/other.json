@@ -1,0 +1,9 @@
+{
+  "session_id": "abc123",
+  "cwd": "/tmp/project",
+  "hook_event_name": "PreToolUse",
+  "tool_name": "Glob",
+  "tool_input": {
+    "pattern": "**/*.rs"
+  }
+}

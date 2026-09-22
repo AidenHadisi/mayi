@@ -1,0 +1,11 @@
+{
+  "session_id": "abc123",
+  "cwd": "/tmp/project",
+  "hook_event_name": "PreToolUse",
+  "tool_name": "Edit",
+  "tool_input": {
+    "file_path": "/tmp/project/src/main.rs",
+    "old_string": "todo",
+    "new_string": "ok"
+  }
+}

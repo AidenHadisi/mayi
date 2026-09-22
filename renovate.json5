@@ -1,0 +1,6 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["github>rust-lang/renovate", "helpers:pinGitHubActionDigests"],
+  // cargo-dist and release-plz own the release flow; keep their pins in lockstep.
+  lockFileMaintenance: { enabled: true, schedule: ["before 6am on monday"] },
+}

@@ -1,0 +1,71 @@
+[package]
+name = "mayi"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.96"
+authors = ["Aiden Hadisi <so.hadisi@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+description = "Permission gate for AI coding agents."
+documentation = "https://github.com/AidenHadisi/mayi#readme"
+repository = "https://github.com/AidenHadisi/mayi"
+homepage = "https://github.com/AidenHadisi/mayi"
+categories = ["command-line-utilities", "development-tools"]
+keywords = ["mayi", "claude-code", "cursor", "codex", "jev"]
+exclude = [".buildsmith/", "target/"]
+
+[package.metadata.wix]
+upgrade-guid = "6EDAF32A-B174-444C-8E52-16D635C6D68B"
+path-guid = "71C57FCF-A617-4A91-8ADB-2DCF392294CC"
+license = false
+eula = false
+
+[package.metadata.docs.rs]
+all-features = true
+
+[dependencies]
+anstream = "1"
+anstyle = "1"
+clap = { version = "4.6", features = ["derive", "wrap_help"] }
+rfd = { version = "0.17", default-features = false, features = ["xdg-portal"] }
+schemars = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+toml = { version = "1", default-features = false, features = ["std", "serde", "parse", "display"] }
+ureq = { version = "3.4", default-features = false, features = ["rustls", "platform-verifier", "json"] }
+
+# common-controls-v6 (TaskDialogIndirect custom labels) is Windows-only.
+[target.'cfg(windows)'.dependencies]
+rfd = { version = "0.17", default-features = false, features = ["xdg-portal", "common-controls-v6"] }
+
+[build-dependencies]
+embed-resource = "3"
+
+[dev-dependencies]
+assert_cmd = "2"
+predicates = "3"
+httpmock = "0.8"
+tempfile = "3"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+# unwind so catch_unwind can fail closed; abort is fail-open on the host.
+panic = "unwind"
+
+# cargo-dist builds with this profile. Same as release, including panic = "unwind".
+[profile.dist]
+inherits = "release"
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+unwrap_used = "deny"
+dbg_macro = "deny"
+todo = "deny"
+missing_errors_doc = "allow"
+must_use_candidate = "allow"

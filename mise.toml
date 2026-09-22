@@ -1,0 +1,4 @@
+# Optional: contributors who use mise get the pinned toolchain automatically.
+# rust-toolchain.toml is the source of truth for rustup users.
+[tools]
+rust = "1.98.1"

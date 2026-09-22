@@ -1,0 +1,9 @@
+{
+  "conversation_id": "c1",
+  "hook_event_name": "beforeMCPExecution",
+  "tool_name": "search",
+  "mcp_server_name": "memory",
+  "tool_input": "{\"q\":\"notes\"}",
+  "command": "npx -y @modelcontextprotocol/server-memory",
+  "cwd": "/tmp/project"
+}

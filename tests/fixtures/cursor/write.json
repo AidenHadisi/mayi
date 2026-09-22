@@ -1,0 +1,10 @@
+{
+  "conversation_id": "c1",
+  "hook_event_name": "preToolUse",
+  "tool_name": "Write",
+  "tool_input": {
+    "file_path": "/tmp/project/README.md",
+    "content": "# Project"
+  },
+  "cwd": "/tmp/project"
+}

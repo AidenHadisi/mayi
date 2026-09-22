@@ -1,0 +1,9 @@
+[workspace]
+# release-plz opens the release PR and pushes the tag; dist builds the release on tag push.
+changelog_config = "cliff.toml"
+git_release_enable = false   # dist owns the GitHub Release
+git_tag_enable = true
+# crates.io publishing is undecided; keep it off until that is settled.
+publish = false
+dependencies_update = false
+pr_labels = ["release"]

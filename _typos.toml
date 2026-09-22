@@ -1,0 +1,14 @@
+[files]
+extend-exclude = [
+    "Cargo.lock",
+    "target/",
+    "tests/fixtures/",
+    "CHANGELOG.md",
+]
+
+[default.extend-words]
+# Product and library names that look like typos to the dictionary.
+jev = "jev"
+Jev = "Jev"
+ureq = "ureq"
+prek = "prek"
