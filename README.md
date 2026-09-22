@@ -13,7 +13,7 @@ mayi hooks into Claude Code, Cursor, and Codex. Every shell command, file edit, 
 Jev answers yes/no questions with a calibrated score instead of prose, so the check is fast and cheap enough to run on every call. OpenAI and Anthropic work too.
 
 <p align="center">
-  <img src="benchmark-infographic.svg" alt="Mayi benchmark comparing Jev, GPT-5.6 Luna, and Claude Haiku 4.5">
+  <img src="benchmark-infographic.png" alt="Mayi benchmark comparing Jev, GPT-5.6 Luna, and Claude Haiku 4.5">
 </p>
 
 ## Install
