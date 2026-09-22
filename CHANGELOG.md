@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-09-22
+
+### Added
+
+- Initial release of mayi
+
+### Documentation
+
+- Center the README badges
+
 ### Added
 
 - `mayi` asks a classifier whether a tool call is safe, then allows it or opens a confirmation dialog.
