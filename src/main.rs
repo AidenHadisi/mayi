@@ -2,21 +2,13 @@
 //! into that host's config. `mayi stats` summarizes local decisions.
 //! `mayi config` reads and writes `~/.config/mayi/config.toml`.
 
-mod classifier;
-mod config;
-mod dialog;
-mod hook;
-mod host;
-mod log;
-
 use std::process::ExitCode;
 
 use clap::{CommandFactory, Parser, Subcommand};
 
-use config::{Config, Field};
-use host::Agent;
-
-type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
+use mayi::config::{Config, Field};
+use mayi::host::Agent;
+use mayi::{hook, log};
 
 #[derive(Parser)]
 #[command(name = "mayi", version, about)]

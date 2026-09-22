@@ -10,14 +10,14 @@ use std::fmt;
 use std::time::Duration;
 
 use schemars::{JsonSchema, schema_for};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 
 use crate::Result;
 use crate::config::Config;
 
 /// How sure the backend is. Required; missing values are an error.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, JsonSchema)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 #[serde(rename_all = "lowercase")]
 #[schemars(inline)]
 pub enum Confidence {

@@ -23,6 +23,13 @@ eula = false
 [package.metadata.docs.rs]
 all-features = true
 
+[features]
+bench = []
+
+[[bin]]
+name = "bench"
+required-features = ["bench"]
+
 [dependencies]
 anstream = "1"
 anstyle = "1"

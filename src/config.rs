@@ -51,12 +51,11 @@ impl Default for Config {
         Self {
             provider: Provider::Jev,
             api_key: None,
-            api_url: String::new(),
-            model: String::new(),
+            api_url: Provider::Jev.default_api_url().into(),
+            model: Provider::Jev.default_model().into(),
             timeout_ms: default_timeout_ms(),
             instructions: default_instructions(),
         }
-        .resolve()
     }
 }
 
@@ -111,27 +110,25 @@ impl Config {
     }
 
     /// Defaults when the file is absent; an error when it exists but cannot be used.
+    /// `api_url` and `model` left out of the file follow `provider`.
     pub fn load() -> Result<Self> {
         let Some(path) = Self::path() else {
             return Ok(Self::default());
         };
-        match fs::read_to_string(&path) {
-            Ok(text) => toml::from_str(&text)
-                .map(Self::resolve)
-                .map_err(|e| format!("invalid config {}: {e}", path.display()).into()),
-            Err(e) if e.kind() == io::ErrorKind::NotFound => Ok(Self::default()),
-            Err(e) => Err(format!("cannot read config {}: {e}", path.display()).into()),
+        let text = match fs::read_to_string(&path) {
+            Ok(text) => text,
+            Err(e) if e.kind() == io::ErrorKind::NotFound => return Ok(Self::default()),
+            Err(e) => return Err(format!("cannot read config {}: {e}", path.display()).into()),
+        };
+        let mut cfg: Self =
+            toml::from_str(&text).map_err(|e| format!("invalid config {}: {e}", path.display()))?;
+        if cfg.api_url.is_empty() {
+            cfg.api_url = cfg.provider.default_api_url().into();
         }
-    }
-
-    fn resolve(mut self) -> Self {
-        if self.api_url.is_empty() {
-            self.api_url = self.provider.default_api_url().into();
+        if cfg.model.is_empty() {
+            cfg.model = cfg.provider.default_model().into();
         }
-        if self.model.is_empty() {
-            self.model = self.provider.default_model().into();
-        }
-        self
+        Ok(cfg)
     }
 
     /// Effective value with compiled defaults filled in.
