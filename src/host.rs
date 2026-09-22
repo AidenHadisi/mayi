@@ -12,6 +12,13 @@ use serde_json::{Value, json};
 
 use crate::Result;
 
+/// Longest action line (in chars) sent whole to the classifier and the dialog.
+const MAX_CHARS: usize = 500;
+/// Chars kept at each end of a clipped line, and the longest file body or
+/// program list kept verbatim.
+// A clip is head 160 + ellipsis + tail 160 + a program list of at most 160, so it stays under 500.
+const EDGE_CHARS: usize = 160;
+
 /// Coding agent whose hooks we speak.
 ///
 /// Each variant knows its config path, how to parse stdin, how to install a hook
@@ -29,8 +36,11 @@ pub enum Agent {
 pub struct Call {
     /// Tool id for the decision log (`Bash`, `mcp__memory__search`). No args.
     pub tool: Option<String>,
-    /// Action line sent to the classifier: `{tool} {args}`.
+    /// Action line sent to the classifier and shown in the dialog: `{tool} {args}`,
+    /// clipped when longer than `MAX_CHARS`.
     pub line: String,
+    /// True when `line` dropped part of the call. A trimmed call is never auto-allowed.
+    pub trimmed: bool,
 }
 
 /// The gate's decision on one tool call.
@@ -169,9 +179,18 @@ impl Agent {
             (tool, args)
         };
 
+        let mut trimmed = false;
         if let Value::Object(map) = &mut args {
             for key in ["description", "timeout", "run_in_background"] {
                 map.remove(key);
+            }
+            for key in ["content", "old_string", "new_string"] {
+                if let Some(Value::String(s)) = map.get_mut(key)
+                    && s.chars().count() > EDGE_CHARS
+                {
+                    *s = format!("<{} bytes>", s.len());
+                    trimmed = true;
+                }
             }
         }
 
@@ -186,13 +205,53 @@ impl Agent {
             other => serde_json::to_string(other).unwrap_or_default(),
         };
 
-        let line = match (tool.as_deref(), detail.as_str()) {
-            (None, "") => raw.to_string(),
-            (None, d) => d.to_string(),
-            (Some(t), "") => t.to_string(),
-            (Some(t), d) => format!("{t} {d}"),
+        let (prefix, mut detail) = match (tool.as_deref(), detail.is_empty()) {
+            (None, true) => (String::new(), raw.to_string()),
+            (None, false) => (String::new(), detail),
+            (Some(t), true) => (t.to_string(), detail),
+            (Some(t), false) => (format!("{t} "), detail),
         };
-        Call { tool, line }
+        if prefix.chars().count() + detail.chars().count() > MAX_CHARS {
+            let shell = tool.as_deref() == Some("Bash") && !detail.starts_with('{');
+            detail = Self::clip(&detail, shell);
+            trimmed = true;
+        }
+        Call {
+            tool,
+            line: prefix + &detail,
+            trimmed,
+        }
+    }
+
+    /// Head and tail of an overlong line, led by the programs a shell command runs.
+    ///
+    /// The program list splits on `&&`, `||`, `;`, `|` and newlines without
+    /// regard for quoting, and is omitted when it would itself be long.
+    fn clip(text: &str, shell: bool) -> String {
+        let head_end = text
+            .char_indices()
+            .nth(EDGE_CHARS)
+            .map_or(text.len(), |(i, _)| i);
+        let tail_start = text
+            .char_indices()
+            .nth_back(EDGE_CHARS - 1)
+            .map_or(0, |(i, _)| i);
+
+        let mut out = String::new();
+        if shell {
+            let programs = text
+                .replace("&&", "\n")
+                .replace("||", "\n")
+                .replace(';', "\n")
+                .split(['|', '\n'])
+                .filter_map(|piece| piece.split_whitespace().next())
+                .collect::<Vec<_>>()
+                .join(" | ");
+            if programs.chars().count() <= EDGE_CHARS {
+                out = programs + "\n";
+            }
+        }
+        out + &text[..head_end] + "\n…\n" + &text[tail_start..]
     }
 
     /// Shape stdout for a permission.
@@ -220,6 +279,8 @@ impl Agent {
 
 #[cfg(test)]
 mod tests {
+    use serde_json::json;
+
     use super::{Agent, Call};
 
     fn fixture(rel: &str) -> String {
@@ -297,5 +358,41 @@ mod tests {
         let call = parse(Agent::Cursor, "cursor/mcp");
         assert_eq!(call.line, "mcp__memory__search notes");
         assert!(!call.line.contains("npx"));
+    }
+
+    #[test]
+    fn short_lines_stay_whole() {
+        let call = parse(Agent::Cursor, "cursor/shell");
+        assert_eq!(call.line, "Bash curl https://example.com");
+        assert!(!call.trimmed);
+    }
+
+    #[test]
+    fn long_file_body_becomes_a_byte_count() {
+        let body = "é".repeat(200);
+        let input = json!({
+            "tool_name": "Write",
+            "tool_input": { "file_path": "/tmp/project/big.txt", "content": body },
+        });
+        let call = Agent::Claude.parse(&input.to_string());
+        assert!(call.line.contains("<400 bytes>"), "{}", call.line);
+        assert!(!call.line.contains(&body));
+        assert!(call.line.contains("/tmp/project/big.txt"));
+        assert!(call.trimmed);
+    }
+
+    #[test]
+    fn long_shell_keeps_both_ends() {
+        let command = format!("echo {} && rm -rf /", "a".repeat(600));
+        let input = json!({ "tool_name": "Bash", "tool_input": { "command": command } });
+        let call = Agent::Claude.parse(&input.to_string());
+        assert!(
+            call.line.starts_with("Bash echo | rm\necho aaaa"),
+            "{}",
+            call.line
+        );
+        assert!(call.line.contains('…'));
+        assert!(call.line.ends_with("rm -rf /"));
+        assert!(call.trimmed);
     }
 }

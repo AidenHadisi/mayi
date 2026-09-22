@@ -41,7 +41,7 @@ pub fn run(agent: Agent) -> ExitCode {
 
     let (permission, usage, error, reason) = match classified {
         Ok((verdict, usage)) => {
-            let permission = if verdict.safe {
+            let permission = if verdict.safe && !call.trimmed {
                 Permission::Allow
             } else {
                 panic::catch_unwind(AssertUnwindSafe(|| dialog::ask(&call.line)))
